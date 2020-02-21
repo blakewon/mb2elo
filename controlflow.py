@@ -31,7 +31,7 @@ import pickle
 
 
 #input method
-get_line = filewatch.get_line
+get_line = filewatch.get_line1
 
 #MMR duel management methods
 current_players = MMR.current_players   #list of successfuly initialized players
@@ -177,23 +177,23 @@ def event_disconnect(event, event_content, current_players):
         pid = int(event_content[0])
         print("Disconnected id: : " , pid)
 
-        disconnected_player = searchby_id(pid, current_players)
-        if disconnected_player == -1:
+        pindex = searchby_id(pid, current_players)
+        if pindex == -1:
             #network.send_cmd("Client not initialized, please reconnect.")
-            print("Uninitialized client disconnected ID: ", disconnected_player)
+            print("Uninitialized client disconnected ID: ", pindex)
             return False
-        if current_players[disconnected_player].in_duel:
-            duel_end(disconnected_player, current_players)
+        if current_players[pindex].in_duel:
+            duel_end(pindex, current_players)
         print("Removing player..")
 
         for x in playerlist:
-            if x.ip == current_players[disconnected_player].ip:
-                x.mmr = current_players[disconnected_player].mmr
-                current_players.pop(disconnected_player)
+            if x.ip == current_players[pindex].ip:
+                x.mmr = current_players[pindex].mmr
+                current_players.pop(pindex)
                 return
 
-        playerlist.append(current_players[disconnected_player])
-        current_players.pop(disconnected_player)
+        playerlist.append(current_players[pindex])
+        current_players.pop(pindex)
         print("REMOVING AND SAVING PLAYER...\n")
 
         MMR.print_player(id, current_players)

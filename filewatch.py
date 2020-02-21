@@ -9,8 +9,6 @@ import os
 import config
 
 
-mypath1 = 'D:/Program Files (x86)/Steam/steamapps/common/Jedi Academy/GameData/MBII/'
-
 dirpath = os.getcwd().replace("\\","/")
 print("current directory is : " + dirpath)
 
@@ -22,14 +20,6 @@ def get_line1(f=open(config.logname), cache=['']):
 
 
 
-
-def get_line():
-    last_line = ""
-    with open(mypath1 + "log.log", "r") as f:
-        for line in f:
-            pass
-        last_line = line[:-1]
-        return last_line
 
 
 
