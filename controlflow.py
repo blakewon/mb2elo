@@ -192,7 +192,7 @@ def event_disconnect(event, event_content, current_players):
                 current_players.pop(disconnected_player)
                 return
 
-        playerlist.append(Player())
+        playerlist.append(current_players[disconnected_player])
         current_players.pop(disconnected_player)
         print("REMOVING AND SAVING PLAYER...\n")
 

@@ -6,6 +6,7 @@ import ctypes
 import network
 import string
 import os
+import config
 
 
 mypath1 = 'D:/Program Files (x86)/Steam/steamapps/common/Jedi Academy/GameData/MBII/'
@@ -14,7 +15,7 @@ dirpath = os.getcwd().replace("\\","/")
 print("current directory is : " + dirpath)
 
 line = ""
-def get_line1(f=open(mypath1 + 'log.log'), cache=['']):
+def get_line1(f=open(config.logname), cache=['']):
     for cache[0] in f:
         pass
     return cache[0][:-1]

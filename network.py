@@ -4,19 +4,18 @@ import string
 import time
 import ctypes
 import threading
+import config
 
 
 
 #introducing multithreading because the server takes inputs in 0.5sec intervals, i want multiple inputs to be able to queue
 #as to not timeout the socket
 
-
-ip = "127.0.0.1"
-def init_connection(): #initializes connection, redundant to insert into every function
+def init_connection(ip = config.ip, port = config.port): #initializes connection, redundant to insert into every function
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((ip, 0))
     sock.settimeout(10)
-    sock.connect((ip, 29070))
+    sock.connect((ip, port))
     return sock
 
     #these methods shouldn't be used as is, as the socket times out if two inputs are sent in less than 0.5 seconds, use threaded functions below these.

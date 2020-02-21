@@ -4,6 +4,7 @@ import player
 import time
 import pickle
 import math
+import config
 Player = player.Player
 
 #filewatch functions
@@ -15,35 +16,15 @@ remove_colorcode = filewatch.remove_colorcode
 
 
 
-new_line = ""
-wait_for_name = False
 client = Player()
 current_players = []
 playerlist = []
 
-#line separation
-#examples:
-# 0:25 ClientConnect: 0 (IP: 192.168.0.177:29071)
-# 15:49 say: J^4|^7Y ^4b^7lake_^4w^7on: asdasdasd
 
 
-
-
-        
-
-timestamp = ""      #timestamp at beggining of each line
-event = ""          #e.g. ClientConnect: , Say: , Kill: etc.
-event_content = ""  #self-explanitory
-chat = ""           #what people say
-pickles = -1
-
-test = filewatch.get_line() #delete this
-
-
-def elo(Ra,Rb): #chess rating algorithm
+def elo(Ra,Rb, k = config.elogain): #chess rating algorithm, see elo's original equation for further information
     e1 = pow(10, float(Ra)/400)
     e2 = pow(10, float(Rb)/400)
-    k = 10
     z = Rb + k * (0 - e2 / (e1 + e2))
 
     return int(Rb - z)
