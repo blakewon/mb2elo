@@ -10,6 +10,7 @@ Download or clone the files and put them in your GameData folder, and edit the m
 
 
 ```
+Basic knowlege of hosting a Jedi Academy server
 Python 3.7
 Port 2090 forwarded through the gateway
 ```
