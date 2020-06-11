@@ -9,14 +9,15 @@ import os
 import config
 
 
-dirpath = os.getcwd().replace("\\","/")
+dirpath = "/root/.ja/MBII"
 print("current directory is : " + dirpath)
 
 line = ""
-def get_line1(f=open(config.logname), cache=['']):
-    for cache[0] in f:
-        pass
-    return cache[0][:-1]
+#def get_line1(f=open("test2.txt"), cache=[''], errors='ignore'):
+
+ #   for cache[0] in f:
+  #      pass
+   # return cache[0][:-1]
 
 
 

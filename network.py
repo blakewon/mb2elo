@@ -13,6 +13,7 @@ import config
 
 def init_connection(ip = config.ip, port = config.port): #initializes connection, redundant to insert into every function
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((ip, 0))
     sock.settimeout(10)
     sock.connect((ip, port))
@@ -36,11 +37,16 @@ def _check_connection():                #checks if the server is responding to a
     time.sleep(0.5)
     
 def _send_cmd(string):                  #string is a console command you want to execute
+    if len(string) > 100:
+        s.send("Error sending output. STR too large.")
+        msg = s.recv(2048)
+        return
+
     s = init_connection()
     print("sending cmd")
     string = string.encode()
     try:
-        s.send(b"\xff\xff\xff\xffrcon 1234 " + string)
+        s.send(b"\xff\xff\xff\xffrcon detoxisanigger " + string)
     except:
         print("command not sent.")
  
@@ -52,7 +58,7 @@ def _send_cmd(string):                  #string is a console command you want to
         print("improper response")
     s.shutdown(socket.SHUT_RDWR)
     s.close()
-    time.sleep(0.5)
+    time.sleep(1)
 
     #threading the function calls, couldn't figure out how to make it one function though
 

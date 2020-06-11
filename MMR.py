@@ -21,13 +21,20 @@ current_players = []
 playerlist = []
 
 
+def duel_start_broadcast(p1, p2, current_players):
+
+    current_players[p1].in_duel = True
+    current_players[p2].in_duel = True
+    network.send_cmd("svsay " + current_players[p1].name + "^7[^3" + str(int(current_players[p1].mmr)) + "^7]" + "  VS. " + current_players[p2].name + "^7[^3" + str(int(current_players[p2].mmr)) + "^7]")
+
 
 def elo(Ra,Rb, k = config.elogain): #chess rating algorithm, see elo's original equation for further information
     e1 = pow(10, float(Ra)/400)
     e2 = pow(10, float(Rb)/400)
     z = Rb + k * (0 - e2 / (e1 + e2))
+    diff = Rb - z
 
-    return int(Rb - z)
+    return round(diff, 2)
 
 def duel_start(p1, p2):
 
@@ -53,23 +60,28 @@ def duel_end(id, current_players):
     current_players[p1].opponent = "%%#" #using this as an "empty" opponent since oone in-game can have "%" character in their name (game restriction)
     current_players[p1].in_duel = False
     difference = elo(current_players[p2].mmr, current_players[p1].mmr)
-    current_players[p1].mmr -= difference
+    loser_elo = current_players[p1].mmr - difference
+    current_players[p1].mmr = round(loser_elo, 2)
+    current_players[p1].losses += 1
 
     current_players[p2].opponent = "%%#"
     current_players[p2].in_duel = False
     old_mmr2 = current_players[p2].mmr
-    current_players[p2].mmr += difference
+    winner_elo = current_players[p2].mmr + difference
+    current_players[p2].mmr = round(winner_elo, 2)
+    current_players[p2].wins += 1
     print(difference)
 
-    network.send_cmd("svsay [" + current_players[p2].name +"^7(^2+" + str(difference) + "^7)"+ " has won the duel against " + current_players[p1].name+ "^7(^1-" + str(difference) + "^7)")
-    
+    #network.send_cmd("[" + current_players[p2].name +"^7(^2+" + str(difference) + "^7)"+ " has won the duel against " + current_players[p1].name+ "^7(^1-" + str(difference) + "^7)")
+    network.send_cmd("svtell %s ^1-%s" %( str(current_players[p1].id), str(round(difference,2))))
+    network.send_cmd("svtell %s ^2+%s" %( str(current_players[p2].id), str(round(difference,2))))
 
-def print_player(pid, current_players = [Player()]):
+def print_player(pid, current_players):
     try:
-        print("[NAME: " + current_players[pid].name + "]" + "[ID: " + str(current_players[pid].id) + "]" + "[OPPONENT: " + current_players[pid].opponent + "]")
+        print("[NAME: " + current_players[pid].name + "]" + "[ID: " + str(current_players[pid].id) + "]" + "[OPPONENT: " + current_players[pid].opponent + "]" + "[ELO: " + str(current_players[pid].mmr) + "]")
     except:
         print("error printing")
-def print_list(current_players = [Player()]):
+def print_list(current_players):
     index = 0
     for client in current_players:
         print_player(index ,current_players)
@@ -108,15 +120,11 @@ def search_name2(name, array):
     except:
         print("tried printing search index")
     for x in array:
-        try:
-            print("Comparing to: " + x.name)
-        except:
-            ("tried printing seach-ee")
         if name == x.name:
             print("INDEX: " + str(index))
             return index
         index+=1
-    print("Client with that name is not found: " + name)
+    print("Client with that name is not found: [%s]" %(name))
     return -1
         
 
