@@ -1,6 +1,6 @@
 # MB2 ELO SYSTEM
 
-This script is an implementation of an elo system for the popular mod Movie Battles 2. It works by reading the server log file, processing the lines, and outputting the results by socketing into said server. 
+This script is an implementation of an elo system for the popular mod Movie Battles 2. It works by reading the stdout of the start.sh file, processing the lines, and outputting the results by socketing into said server. 
 
 ## Installing
 
