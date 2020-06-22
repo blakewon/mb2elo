@@ -6,6 +6,8 @@ This script is an implementation of an elo system for the popular mod Movie Batt
 
 Download or clone the files and put them in your GameData folder, and edit the mb2elo.cfg according to your needs. The script itself will start the server, so don't use the "sh start.sh" command to initialize your server.
 
+This is needed because the script needs to start the server as a sub-process in order to read the stdout.
+
 ### Prerequisites
 
 
