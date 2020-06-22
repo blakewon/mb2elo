@@ -11,6 +11,8 @@ import config
 #introducing multithreading because the server takes inputs in 0.5sec intervals, i want multiple inputs to be able to queue
 #as to not timeout the socket
 
+rconpassword = config.rcon
+prefix = b"\xff\xff\xff\xffrcon " + rconpassword + " "
 def init_connection(ip = config.ip, port = config.port): #initializes connection, redundant to insert into every function
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -24,7 +26,7 @@ def init_connection(ip = config.ip, port = config.port): #initializes connection
 def _check_connection():                #checks if the server is responding to a command
     s = init_connection()
     print("sending heartbeat")
-    s.send(b"\xff\xff\xff\xffrcon 1234")
+    s.send(prefix)
 
     msg = s.recv(2048)
     if msg.startswith(b'\xff\xff\xff\xffprint'):
@@ -46,7 +48,7 @@ def _send_cmd(string):                  #string is a console command you want to
     print("sending cmd")
     string = string.encode()
     try:
-        s.send(b"\xff\xff\xff\xffrcon detoxisanigger " + string)
+        s.send(prefix + string)
     except:
         print("command not sent.")
  
@@ -60,7 +62,7 @@ def _send_cmd(string):                  #string is a console command you want to
     s.close()
     time.sleep(1)
 
-    #threading the function calls, couldn't figure out how to make it one function though
+    #threading the function calls as to not time out the socket
 
 def check_connection():
     thread = threading.Thread(target=_check_connection)
