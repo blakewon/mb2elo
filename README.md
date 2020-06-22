@@ -8,6 +8,9 @@ Download or clone the files and put them in your GameData folder, and edit the m
 
 This is needed because the script needs to start the server as a sub-process in order to read the stdout.
 
+The default values in mb2elo.cfg will work on most servers, but make sure to edit the rcon password as it will not work without it.
+
+
 ### Prerequisites
 
 
