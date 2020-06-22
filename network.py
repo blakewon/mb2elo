@@ -62,7 +62,7 @@ def _send_cmd(string):                  #string is a console command you want to
     s.close()
     time.sleep(1)
 
-    #threading the function calls as to not time out the socket
+    #queueing the function calls as to not time out the socket
 
 def check_connection():
     thread = threading.Thread(target=_check_connection)
